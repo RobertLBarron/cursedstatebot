@@ -13,6 +13,37 @@ const commands = [
     }
   ]
   },
+  {
+    name: "domain-expansion-attempt",
+    description: "rolls to see if a domain expansion is performed and which type it is.",
+    options: [{
+      name: "highest-level",
+      description: "the highest level the OC has performed domain expansion.",
+      type: ApplicationCommandOptionType.String,
+      choices: [
+        {
+          name: "none",
+          value: "none",
+        },
+        {
+          name: "incomplete domain",
+          value: "incomplete domain",
+        },
+        {
+          name: "complete domain",
+          value: "complete domain",
+        },
+      ],
+      required: true,
+    },
+    {
+      name: "number-of-successful-attempts",
+      description: "the amount of times the OC has successfully done said type.",
+      type: ApplicationCommandOptionType.Number,
+      required: true,
+    },
+  ],
+  },
 ];
 
 const rest = new REST({version: '10'}).setToken(process.env.TOKEN);

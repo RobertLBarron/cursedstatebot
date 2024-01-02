@@ -40,10 +40,10 @@ client.on('interactionCreate', (interaction) =>{
         return;
     } 
 
-    let number = Math.floor(Math.random() * 20);
-
+    //BLACK FLASH CODE
     if(interaction.commandName == 'black-flash-attempt'){
         //neccessary vars
+        let number = Math.floor(Math.random() * 20);
         const previousSuccess = interaction.options.get('previous-successes').value;
         let targetNumber = 19;
 
@@ -63,9 +63,72 @@ client.on('interactionCreate', (interaction) =>{
             interaction.reply('```BLACK FLASH!!!```');
             console.log(`${number} WAS enough`);
         } else{
-            interaction.reply('```failure...```');
+            interaction.reply('```- failure... (wait 4 turns before trying again)-```');
             console.log(`${number} wasn't enough`);
         }
+    }
+
+    // DOMAIN EXPANSION CODE
+    if(interaction.commandName == 'domain-expansion-attempt'){
+        let number = Math.floor(Math.random() * 20);
+        const previousSuccess = interaction.options.get('number-of-successful-attempts').value;
+
+        //OUTER LOOP: if the user had no successful domains of any type
+        if(interaction.options.get('highest-level').value == "none"){ 
+            if(number == 19){//they get a complete DE
+                interaction.reply('https://tenor.com/view/gojo-domain-expansion-gif-19197982');
+            } else if(number == 17 || number == 18){//they get an incomplete DE
+                interaction.reply('https://tenor.com/view/fushiguro-megumi-megumi-fushiguro-then-shadows-cursed-energy-megumi-gif-8946864940192553705');
+            } else{ //they get no DE
+                interaction.reply('```- failure... (wait until next fight to try again)-```');
+            }
+
+        //OUTER LOOP: if the user has performed a previous incomplete DE, but not a complete one
+        } else if(interaction.options.get('highest-level').value == "incomplete domain"){//OUTER LOOP: if the user has performed a previous incomplete DE, but not a complete one
+            if( previousSuccess <= 0 ){//if they fucked up on choosing
+                interaction.reply('```choose "None" as your highest level.```');
+            } else if(previousSuccess == 1 || previousSuccess == 2){ //if they've succeeded on 1 or 2 incomplete domains
+                if(number >= 16 && number <= 19){//they get a complete DE
+                    interaction.reply('https://tenor.com/view/gojo-domain-expansion-gif-19197982');
+                } else if(number >= 9 && number <= 15){//they get an incomplete DE
+                    interaction.reply('https://tenor.com/view/fushiguro-megumi-megumi-fushiguro-then-shadows-cursed-energy-megumi-gif-8946864940192553705');
+                } else{ //they get no DE
+                    interaction.reply('```- failure... (wait until next fight to try again)-```');
+                }
+            } else{ // 3 or more incomplete domains
+                if(number >= 14 && number <= 19){//they get a complete DE
+                    interaction.reply('https://tenor.com/view/gojo-domain-expansion-gif-19197982');
+                } else if(number >= 0 || number <= 13){//they get an incomplete DE
+                    interaction.reply('https://tenor.com/view/fushiguro-megumi-megumi-fushiguro-then-shadows-cursed-energy-megumi-gif-8946864940192553705');
+                } else{ //they get no DE
+                    interaction.reply('```- failure... (wait until next fight to try again)-```');
+                }
+            }
+
+        //OUTER LOOP: if the user has completed a complete DE previously
+        } else if(interaction.options.get('highest-level').value == "complete domain"){
+            if( previousSuccess <= 0 ){//if they fucked up on choosing
+                interaction.reply('```choose "None" or "Incomplete Domain" as your highest level.```');
+            } else if(previousSuccess == 1 || previousSuccess == 2){ //if they've succeeded on 1 or 2 complete domains
+                if(number >= 14 && number <= 19){//they get a complete DE
+                    interaction.reply('https://tenor.com/view/gojo-domain-expansion-gif-19197982');
+                } else if(number >= 0 && number <= 13){//they get an incomplete DE
+                    interaction.reply('https://tenor.com/view/fushiguro-megumi-megumi-fushiguro-then-shadows-cursed-energy-megumi-gif-8946864940192553705');
+                } else{ //they get no DE
+                    interaction.reply('```- failure... - (how do you fail?)```');
+                }
+            } else{ // 3 or more complete domains
+                //they get a complete DE
+                interaction.reply('https://tenor.com/view/gojo-domain-expansion-gif-19197982');
+                
+            }
+
+        //OUTER LOOP: for when i have no fucking clue how they messed up an required option.
+        } else{
+            interaction.reply('I have no clue what went wrong'); 
+        }
+        console.log(`${number + 1} is what they rolled for the DE attempt (-1 if u want the bot roll).`);
+        return;
     }
 })
 
